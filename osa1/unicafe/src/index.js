@@ -1,6 +1,31 @@
 import React, { useState } from 'react'
 import ReactDOM from 'react-dom'
 
+const StatisticLine = (props) => {
+  return (
+    <p>{props.text} {props.value}</p>
+  )
+}
+
+const Statistic = (props) => {
+
+  if(props.all === 0) {
+    return 'No feedback given'
+  }
+
+  return (
+    <div>
+      <StatisticLine text='good' value={props.good}></StatisticLine>
+      <StatisticLine text='neutral' value={props.neutral}></StatisticLine>
+      <StatisticLine text='bad' value={props.bad}></StatisticLine>
+      <StatisticLine text='all' value={props.all}></StatisticLine>
+      <StatisticLine text='average' value={props.sum / props.all}></StatisticLine>
+      <StatisticLine text='positive' value={props.good / props.all *100}></StatisticLine>
+
+    </div>
+  )
+}
+
 const App = () => {
   const [good, setGood] = useState(0)
   const [neutral, setNeutral] = useState(0)
@@ -9,7 +34,6 @@ const App = () => {
   const [sum, setSum] = useState(0)
 
   const handleGoodClick = () => {
-    console.log('good clicked')
     setGood(good+1)
     setAll(all+1)
     setSum(sum+1)
@@ -29,27 +53,19 @@ const App = () => {
   return (
     <div>
       <h1>give feedback</h1>
-      <button onClick={handleGoodClick}>good</button>
-      <button onClick={handleNeutralClcik}>neutral</button>
-      <button onClick={handleBadClick}>bad</button>
+      <Button onClick={handleGoodClick} text='good'></Button>
+      <Button onClick={handleNeutralClcik} text='neutral'></Button>
+      <Button onClick={handleBadClick} text='bad'></Button>
       <h1>statistics</h1>
-
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {all}</p>
-      <p>average {sum / all}</p>
-      <p>positive {good / all * 100} %</p>
-      
+      <Statistic good={good} neutral={neutral} bad={bad} all={all} sum={sum} />
     </div>
   )
 }
 
-const Button = ({handleClick, text }) => (
-  <button onClick={handleClick}>
-    {text}
-  </button>
-)
+const Button = (props) => {
+  return (
+    <button onClick={props.onClick}>{props.text}</button>
+  )}
 
 ReactDOM.render(<App />, 
   document.getElementById('root')
