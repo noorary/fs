@@ -10,13 +10,13 @@ Tuntikirjanpito
 | **Yht** |       | 2      |
 | 1       | 2.5   | 1      |
 | 1       | 4.5   | 2.5    |
-| 1       | 15.5  | 1      |
-| **Yht** |       | 4.5    |
+| 1       | 15.5  | 1.5    |
+| **Yht** |       | 5      |
 
 
-![Progress](https://progress-bar.dev/6/)
+![Progress](https://progress-bar.dev/8/)
 
 Tehtäviä yhteensä: 201
 
-Tehty: 13
+Tehty: 16
 
