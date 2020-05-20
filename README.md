@@ -37,6 +37,8 @@ Tehtäviä yhteensä: 148
 
 Tehty: 25
 
+***
+
 8 opintopiste:
 
 ![Progress](https://progress-bar.dev/0/)
@@ -45,10 +47,13 @@ Tehtäviä yhteensä: 26
 
 Tehty: 0
 
+***
+
 9 opintopiste:
+
+![Progress](https://progress-bar.dev/0/)
 
 Tehtäviä yhteensä: 27
 
 Tehty: 0
 
-![Progress](https://progress-bar.dev/0/)
