@@ -16,27 +16,28 @@ Tuntikirjanpito
 | ------- | ----- | ------ |
 | 2       | 20.5  | 2.5    |
 | 2       | 25.5  | 1      |
-| **Yht** |       | 3.5    |
+| 2       | 26.5  | 2.5    |
+| **Yht** |       | 6      |
 | ------- | ----- | ------ | 
 
 
 Koko kurssi (9 opintopistettä)
 
-![Progress](https://progress-bar.dev/13/)
+![Progress](https://progress-bar.dev/14/)
 
 Tehtäviä yhteensä: 201
 
-Tehty: 27
+Tehty: 30
 
 ---
 
 7 opintopistettä:
 
-![Progress](https://progress-bar.dev/18/)
+![Progress](https://progress-bar.dev/20/)
 
 Tehtäviä yhteensä: 148
 
-Tehty: 27
+Tehty: 30
 
 ***
 

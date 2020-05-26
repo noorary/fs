@@ -1,29 +1,42 @@
 import React, { useState } from 'react'
+import Filter from './components/Filter'
+import Phonebook from './components/Phonebook'
+import Form from './components/Form'
 
 const App = () => {
-  const [ persons, setPersons] = useState([
-    { name: 'Arto Hellas' }
-  ]) 
+  const [persons, setPersons] = useState([
+    { name: 'Arto Hellas', number: '040-123456' },
+    { name: 'Ada Lovelace', number: '39-44-5323523' },
+    { name: 'Dan Abramov', number: '12-43-234345' },
+    { name: 'Mary Poppendieck', number: '39-23-6423122' }
+  ])
   const [ newName, setNewName ] = useState('')
+  const [ newNumber, setNewNumber ] = useState('')
+  const [ searchTerm, setSearchTerm ] = useState('')
+  const [ showAll, setShowAll ] = useState(true)
 
   const addPerson = (event) => {
     event.preventDefault()
-    console.log('clicked', event.target)
-
-    console.log(newName)
-    console.log(persons)
-    console.log(persons.findIndex(person => person.name === newName) > -1)
 
     if(persons.findIndex(person => person.name === newName) > -1) {
       window.alert(`${newName} is already added to phonebook`)
       setNewName('')
-    } else {
+      setNewNumber('')
+    } else if(persons.findIndex(person => person.number === newNumber) > -1) {
+      window.alert(`${newNumber} is already added to phonebook`)
+      setNewNumber('')
+      setNewName('')
+    }
+    
+    else {
       const personObject = {
-        name: newName
+        name: newName,
+        number: newNumber
       }
   
       setPersons(persons.concat(personObject))
       setNewName('')
+      setNewNumber('')
     }
     
   }
@@ -33,25 +46,42 @@ const App = () => {
     setNewName(event.target.value)
   }
 
+  const handleNumberChange = (event) => {
+    console.log(event.target.value)
+    setNewNumber(event.target.value)
+  }
+
+  const handleSearchChange = (event) => {
+    console.log(event.target.value)
+    
+    setSearchTerm(event.target.value)
+    if(event.target.value === ('')) {
+      setShowAll(true)
+    } else {
+      setShowAll(false)
+    }
+  }
+
+  const personsToShow = showAll
+    ? persons 
+    : persons.filter(person => person.name.toLowerCase().includes(searchTerm.toLowerCase()))
+
   return (
     <div>
-      <h2>Phonebook</h2>
-      <form onSubmit={addPerson}>
-        <div>
-          name: <input
-          value={newName}
-          onChange= {handleNameChange} />
-        </div>
-        <div>
-          <button type="submit">add</button>
-        </div>
-      </form>
-      <h2>Numbers</h2>
-      <ul>
-        {persons.map((person) =>
-        <li key={person.name}>{person.name}</li>
-        )}
-      </ul>
+      <h1>Phonebook</h1>
+      <Filter
+        searchTerm={searchTerm}
+        handleSearchChange={handleSearchChange} />
+
+      <Form
+        addPerson={addPerson}
+        newName={newName}
+        handleNameChange={handleNameChange}
+        newNumber={newNumber}
+        handleNumberChange={handleNumberChange} />
+
+      <Phonebook
+        personsToShow={personsToShow} />
     </div>
   )
 
