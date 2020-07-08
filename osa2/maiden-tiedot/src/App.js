@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import axios from 'axios'
-import CountryList from './components/CountryList';
+import Weather from './components/Weather'
+
 
 
 const App = () => {
@@ -71,6 +72,11 @@ const DisplayButton = (props) => {
                 </ul>
     
                 <img src={country.flag} width="200px" alt="flag"></img>
+            </div>
+            <div>
+              <Weather 
+              capital={country.capital}
+              />
             </div>
             </div>
         )

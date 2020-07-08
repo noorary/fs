@@ -20,7 +20,8 @@ Tuntikirjanpito
 | 2       | 26.6  | 0.75   | 
 | 2       | 30.6  | 1      |
 | 2       | 1.7   | 1      |
-| **Yht** |       | 10.25  |
+| 2       | 8.7   | 0.75   |
+| **Yht** |       | 11     |
 | ------- | ----- | ------ | 
 
 
@@ -30,7 +31,7 @@ Koko kurssi (9 opintopistettä)
 
 Tehtäviä yhteensä: 201
 
-Tehty: 33
+Tehty: 34
 
 ---
 
@@ -40,7 +41,7 @@ Tehty: 33
 
 Tehtäviä yhteensä: 148
 
-Tehty: 33
+Tehty: 34
 
 ***
 
