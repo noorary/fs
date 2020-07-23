@@ -3,6 +3,7 @@ import Filter from './components/Filter'
 import Phonebook from './components/Phonebook'
 import Form from './components/Form'
 import personService from './services/persons'
+import Notification from './components/Notification'
 
 const App = () => {
   const [ persons, setPersons ] = useState([])
@@ -10,6 +11,10 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ searchTerm, setSearchTerm ] = useState('')
   const [ showAll, setShowAll ] = useState(true)
+  const [notification, setNotification] = useState({
+    content: null,
+    style: null
+  })
 
   useEffect(() => {
     console.log('use effect')
@@ -21,6 +26,19 @@ const App = () => {
   }, [])
   console.log('render', persons)
 
+  const showNotification = (content, style) => {
+    setNotification({
+      content: content,
+      style: style
+    })
+    setTimeout(() => {
+      setNotification({
+        content: null,
+        style: null
+      })
+    }, 5000)
+  }
+
   const addPerson = (event) => {
     event.preventDefault()
 
@@ -28,7 +46,10 @@ const App = () => {
       if(window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(n => n.name === newName)
         updateNumber(person.id, newNumber)
-      } else {
+        showNotification(`${newName} was updated`, 'success')
+      }
+      
+      else {
         setNewName('')
         setNewNumber('')
       }
@@ -36,6 +57,7 @@ const App = () => {
       if(window.confirm(`${newNumber} is already added to phonebook, replace the old name with a new name?`)) {
         const person = persons.find(n => n.number === newNumber)
         updateName(person.id, newName)
+        showNotification(`'${newNumber}' was updated`, 'success')
       } else {
         setNewNumber('')
         setNewName('')
@@ -56,6 +78,8 @@ const App = () => {
           setNewName('')
           setNewNumber('')
         })
+
+        showNotification(`'${newName}' was added to phonebook`, 'success')
     }
     
   }
@@ -69,7 +93,7 @@ const App = () => {
       personService
       .deletePerson(id)
       .then(deletedPerson => {
-          console.log('poistettu')
+          showNotification(`${persons[selected].name} was deleted`, 'success')
           setPersons(persons.filter(p => p.id !== id))
       })
     }
@@ -84,6 +108,8 @@ const App = () => {
       .updatePerson(id, updatedPerson)
       .then(updatedPersons => {
         setPersons(persons.map(person => person.id !== id ? person : updatedPersons))
+      }).catch((error) => {
+        showNotification(`Failed to update ${updatedPerson.name}`, 'failure')
       })
   }
 
@@ -95,6 +121,8 @@ const App = () => {
       .updatePerson(id, updatedPerson)
       .then(updatedPersons => {
         setPersons(persons.map(person => person.id !== id ? person : updatedPersons))
+      }).catch((error) => {
+        showNotification(`Failed to update ${updatedPerson.number}`, 'failure')
       })
   }
 
@@ -126,6 +154,7 @@ const App = () => {
   return (
     <div>
       <h1>Phonebook</h1>
+      <Notification notification={notification}/>
       <Filter
         searchTerm={searchTerm}
         handleSearchChange={handleSearchChange} />

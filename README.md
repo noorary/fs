@@ -1,19 +1,9 @@
-Helsingin yliopiston [Full Stack - websovelluskehityksen kurssi](https://fullstackopen.com/)
+# Helsingin yliopiston [Full Stack - websovelluskehityksen kurssi](https://fullstackopen.com/)
 
-Tuntikirjanpito
+## Tuntikirjanpito
 
-| Osa     | Pvm   | Tunnit |
-| ---     | ---   | ------ |
-| 0       | 24.4  | 0.5    |
-| 0       | 27.4  | 1      |
-| 0       | 28.4  | 0.5    |
-| **Yht** |       | 2      |
-| ------- | ----- | ------ |
-| 1       | 2.5   | 1      |
-| 1       | 4.5   | 2.5    |
-| 1       | 15.5  | 2.5    |
-| **Yht** |       | 6      |
-| ------- | ----- | ------ |
+OSA 2
+
 | 2       | 20.5  | 2.5    |
 | 2       | 25.5  | 1      |
 | 2       | 26.5  | 4      |
@@ -23,27 +13,45 @@ Tuntikirjanpito
 | 2       | 8.7   | 0.75   |
 | 2       | 9.7   | 1      |
 | 2       | 21.7  | 1      |
-| **Yht** |       | 13     |
-| ------- | ----- | ------ | 
+| 2       | 23.7  | 1      |
+| **Yht** |       | 14     |
 
+
+OSA 1
+
+| 1       | 2.5   | 1      |
+| 1       | 4.5   | 2.5    |
+| 1       | 15.5  | 2.5    |
+| **Yht** |       | 6      |
+
+OSA 0
+
+| Osa     | Pvm   | Tunnit |       
+| ---     | ---   | ------ |
+| 0       | 24.4  | 0.5    |
+| 0       | 27.4  | 1      |
+| 0       | 28.4  | 0.5    |
+| **Yht** |       | 2      |
+
+## Edistyminen
 
 Koko kurssi (9 opintopistettä)
 
-![Progress](https://progress-bar.dev/18/)
+![Progress](https://progress-bar.dev/19/)
 
 Tehtäviä yhteensä: 201
 
-Tehty: 38
+Tehty: 40
 
 ---
 
 7 opintopistettä:
 
-![Progress](https://progress-bar.dev/25/)
+![Progress](https://progress-bar.dev/27/)
 
 Tehtäviä yhteensä: 148
 
-Tehty: 38
+Tehty: 40
 
 ***
 
