@@ -2,8 +2,15 @@
 
 ## Tuntikirjanpito
 
+OSA 3
+
+| Osa     | Pvm    | Tunnit | 
+|         |        |        |
+| **Yht** |        |        |
+
 OSA 2
 
+| Osa     | Pvm   | Tunnit | 
 | 2       | 20.5  | 2.5    |
 | 2       | 25.5  | 1      |
 | 2       | 26.5  | 4      |
@@ -19,6 +26,7 @@ OSA 2
 
 OSA 1
 
+| Osa     | Pvm   | Tunnit | 
 | 1       | 2.5   | 1      |
 | 1       | 4.5   | 2.5    |
 | 1       | 15.5  | 2.5    |
