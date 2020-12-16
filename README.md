@@ -1,9 +1,5 @@
 # Helsingin yliopiston [Full Stack - websovelluskehityksen kurssi](https://fullstackopen.com/)
 
-## Osa 3 tehtävät 3.1 ->
-
-[Linkki omaan repoon](https://github.com/noorary/fsosa3)
-
 
 ## Tuntikirjanpito
 
@@ -13,8 +9,11 @@ OSA 3
 | ------- | ------ | ------ |
 | 3       | 9.12   | 1      |
 | 3       | 10.12  | 1.5    |
-| 3       | 11.12  | 1.5
-| **Yht** |        | 4      |
+| 3       | 11.12  | 1.5    |
+| 3       | 14.12  | 1.5    |
+| 3       | 15.12  | 3      |
+| 3       | 16.12  | 2.5    |
+| **Yht** |        | 11     |
 
 OSA 2
 
@@ -55,39 +54,22 @@ OSA 0
 
 Koko kurssi (9 opintopistettä)
 
-![Progress](https://progress-bar.dev/23/)
+![Progress](https://progress-bar.dev/30/)
 
 Tehtäviä yhteensä: 201
 
-Tehty: 48
+Tehty: 62
 
 ---
 
 7 opintopistettä:
 
-![Progress](https://progress-bar.dev/32/)
+![Progress](https://progress-bar.dev/41/)
 
 Tehtäviä yhteensä: 148
 
-Tehty: 48
+Tehty: 62
 
 ***
 
-8 opintopiste:
-
-![Progress](https://progress-bar.dev/0/)
-
-Tehtäviä yhteensä: 26
-
-Tehty: 0
-
-***
-
-9 opintopiste:
-
-![Progress](https://progress-bar.dev/0/)
-
-Tehtäviä yhteensä: 27
-
-Tehty: 0
 
