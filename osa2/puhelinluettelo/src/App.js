@@ -47,6 +47,8 @@ const App = () => {
         const person = persons.find(n => n.name === newName)
         updateNumber(person.id, newNumber)
         showNotification(`${newName} was updated`, 'success')
+        setNewNumber('')
+        setNewName('')
       }
       
       else {
@@ -58,6 +60,8 @@ const App = () => {
         const person = persons.find(n => n.number === newNumber)
         updateName(person.id, newName)
         showNotification(`'${newNumber}' was updated`, 'success')
+        setNewNumber('')
+        setNewName('')
       } else {
         setNewNumber('')
         setNewName('')
@@ -77,6 +81,10 @@ const App = () => {
           setPersons(persons.concat(returnedPerson))
           setNewName('')
           setNewNumber('')
+        })
+        .catch(error => {
+          console.log(error.response.data)
+          showNotification(error.response.data.errorMessage, 'failure')
         })
 
         showNotification(`'${newName}' was added to phonebook`, 'success')
@@ -109,6 +117,7 @@ const App = () => {
       .then(updatedPersons => {
         setPersons(persons.map(person => person.id !== id ? person : updatedPersons))
       }).catch((error) => {
+        console.log(error)
         showNotification(`Failed to update ${updatedPerson.name}`, 'failure')
       })
   }
