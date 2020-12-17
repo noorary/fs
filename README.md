@@ -1,7 +1,44 @@
 # Helsingin yliopiston [Full Stack - websovelluskehityksen kurssi](https://fullstackopen.com/)
 
+## Edistyminen
+
+#### 7 opintopistettä:
+
+62/148 tehtävää tehty
+
+![Progress](https://progress-bar.dev/41/)
+
+#### 8. opintopiste:
+
+0/26 tehtävää tehty
+
+![Progress](https://progress-bar.dev/0/)
+
+#### 9. opintopiste:
+
+0/27 tehtävää tehty
+
+![Progress](https://progress-bar.dev/0/)
+
+#### 10. ja 11. opintopiste
+
+0/27 tehtävää tehty
+
+![Progress](https://progress-bar.dev/0/)
+
+#### 12. opintopiste
+
+0/22 tehtävää tehty
+
+![Progress](https://progress-bar.dev/0/)
 
 ## Tuntikirjanpito
+
+OSA 4
+| Osa     | Pvm    |        |
+| ------- | ------ | ------ |
+| 4       | 17.12  | 1      |
+| **Yht** |        | 1      |
 
 OSA 3
 
@@ -50,25 +87,10 @@ OSA 0
 | 0       | 28.4  | 0.5    |
 | **Yht** |       | 2      |
 
-## Edistyminen
 
-Koko kurssi (9 opintopistettä)
 
-![Progress](https://progress-bar.dev/30/)
 
-Tehtäviä yhteensä: 201
 
-Tehty: 62
-
----
-
-7 opintopistettä:
-
-![Progress](https://progress-bar.dev/41/)
-
-Tehtäviä yhteensä: 148
-
-Tehty: 62
 
 ***
 
