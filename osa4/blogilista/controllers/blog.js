@@ -9,9 +9,16 @@ router.get('/', async (request, response) => {
 router.post('/', async (request, response) => {
     const blog = new Blog(request.body)
 
-    const savedBlog = await blog.save()
+    if(request.body.likes === undefined) {
+        blog.likes = 0
+    }
 
-    response.json(savedBlog)
+    if(request.body.title === undefined || request.body.url === undefined) {
+        response.status(400).end()
+    } else {
+        const savedBlog = await blog.save()
+        response.json(savedBlog)
+    }
 })
 
 module.exports = router
