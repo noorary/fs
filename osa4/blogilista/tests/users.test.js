@@ -17,7 +17,7 @@ describe('when there is initially one user at db', () => {
         await user.save()
     })
 
-    test('creating new user', async () => {
+    test('creating new user succeeds with unique username', async () => {
         const usersAtStart = await helper.usersInDb()
 
         const newUser = {

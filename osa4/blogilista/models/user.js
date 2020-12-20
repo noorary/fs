@@ -10,7 +10,13 @@ const userSchema = mongoose.Schema({
     name: {
         type: String,
     },
-    passWordHash: String,
+    passwordHash: String,
+    blogs: [
+        {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Blog'
+        }
+    ]
 })
 
 userSchema.set('toJSON', {
