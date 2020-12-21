@@ -115,7 +115,7 @@ describe('adding new blog', () => {
         expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
     })
 
-    test('without url fails with statuscode 400c', async () => {
+    test('without url fails with statuscode 400', async () => {
         const newBlog = {
             title: 'Refactoring',
             likes: 1
@@ -133,14 +133,39 @@ describe('adding new blog', () => {
 
         expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
     })
+
+    test('without valid token fails with statuscode 401', async () => {
+        const newBlog = {
+            title: 'Agile Software Guide',
+            author: 'Martin Fowler',
+            url: 'https://martinfowler.com/agile.html',
+            likes: 1
+        }
+
+        await api
+            .post('/api/blogs')
+            .send(newBlog)
+            .expect(401)
+            .expect('Content-Type', /application\/json/)
+
+        const response = await api.get('/api/blogs')
+
+        const titles = response.body.map(r => r.title)
+
+        expect(response.body).toHaveLength(helper.initialBlogs.length)
+        expect(titles).not.toContain('Agile Software Guide')
+    })
 })
 
 describe('deleting blog', () => {
-    test('with valid id succeeds with status code 204', async () => {
+    test('with valid id and token succeeds with status code 204', async () => {
         const blogsAtStart = await helper.blogsInDb()
         const blogToDelete = blogsAtStart[0]
+
+        const token = await helper.getToken()
         await api
             .delete(`/api/blogs/${blogToDelete.id}`)
+            .set('Authorization', `Bearer ${token}`)
             .expect(204)
 
         const blogsAtEnd = await helper.blogsInDb()
@@ -150,6 +175,23 @@ describe('deleting blog', () => {
         const titles = blogsAtEnd.map(b => b.title)
 
         expect(titles).not.toContain(blogToDelete.title)
+    })
+
+    test('without valid token fails with status code 204', async () => {
+        const blogsAtStart = await helper.blogsInDb()
+        const blogToDelete = blogsAtStart[0]
+
+        await api
+            .delete(`/api/blogs/${blogToDelete.id}`)
+            .expect(401)
+
+        const blogsAtEnd = await helper.blogsInDb()
+
+        expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+        const titles = blogsAtEnd.map(b => b.title)
+
+        expect(titles).toContain(blogToDelete.title)
     })
 })
 
