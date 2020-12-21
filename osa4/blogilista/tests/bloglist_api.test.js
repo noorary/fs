@@ -5,10 +5,21 @@ const app = require('../app')
 const api = supertest(app)
 
 const Blog = require('../models/blog')
+const User = require('../models/user')
 
 beforeEach(async () => {
     await Blog.deleteMany({})
+    await User.deleteMany({})
     await Blog.insertMany(helper.initialBlogs)
+    await User.insertMany(helper.initialUsers)
+
+    const user = await helper.oneUserInDb()
+    const blogs = await helper.blogsInDb()
+
+    user.blogs = blogs.map(b => b._id)
+
+    user.save()
+    await Blog.updateMany({}, { $set: { user: user._id } })
 })
 
 describe('when there are some blogs saved', () => {
@@ -48,10 +59,12 @@ describe('adding new blog', () => {
             url: 'https://martinfowler.com/agile.html',
             likes: 1
         }
+        const token = await helper.getToken()
 
         await api
             .post('/api/blogs')
             .send(newBlog)
+            .set('Authorization', `Bearer ${token}`)
             .expect(200)
             .expect('Content-Type', /application\/json/)
 
@@ -70,9 +83,12 @@ describe('adding new blog', () => {
             url: 'https://refactoring.com/'
         }
 
+        const token = await helper.getToken()
+
         await api
             .post('/api/blogs')
             .send(newBlog)
+            .set('Authorization', `Bearer ${token}`)
 
         const response = await api.get('/api/blogs')
         const addedBlog = response.body.find(blog => blog.title === 'Refactoring')
@@ -86,9 +102,12 @@ describe('adding new blog', () => {
             likes: 10
         }
 
+        const token = await helper.getToken()
+
         await api
             .post('/api/blogs')
             .send(newBlog)
+            .set('Authorization', `Bearer ${token}`)
             .expect(400)
 
         const blogsAtEnd = await helper.blogsInDb()
@@ -102,9 +121,12 @@ describe('adding new blog', () => {
             likes: 1
         }
 
+        const token = await helper.getToken()
+
         await api
             .post('/api/blogs')
             .send(newBlog)
+            .set('Authorization', `Bearer ${token}`)
             .expect(400)
 
         const blogsAtEnd = await helper.blogsInDb()

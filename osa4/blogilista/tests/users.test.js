@@ -5,7 +5,7 @@ const supertest = require('supertest')
 const app = require('../app')
 const api = supertest(app)
 
-const User = require('../models/users')
+const User = require('../models/user')
 
 describe('when there is initially one user at db', () => {
     beforeEach(async () => {
@@ -50,6 +50,7 @@ describe('when there is initially one user at db', () => {
 
         const result = await api
             .post('/api/users')
+            .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im1pbm5pIiwiaWQiOiI1ZmRmN2QzZTViNjk3ZDFmODJiMWEyZjciLCJpYXQiOjE2MDg0ODMxNjJ9.xhR5SgY6iGEphJLJBRJSTUA-MTVS8HUw1fSbFtWEazY')
             .send(newUser)
             .expect(400)
             .expect('Content-Type', /application\/json/)

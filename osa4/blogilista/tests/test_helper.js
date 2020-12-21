@@ -1,5 +1,8 @@
+const jwt = require('jsonwebtoken')
+const config = require('../utils/config')
 const Blog = require('../models/blog')
-const User = require('../models/users')
+const User = require('../models/user')
+
 
 const initialBlogs = [
     {
@@ -40,6 +43,14 @@ const initialBlogs = [
     }
 ]
 
+const initialUsers = [
+    {
+        username: 'minni',
+        name: 'Minni Hiiri',
+        passwordHash: '$2b$10$fKAGBIcczdeqHR5iMlweYODHV1qT4aJNxo1fjntSFVkfYkzivbQfu'
+    }
+]
+
 const blogsInDb = async () => {
     const blogs = await Blog.find({})
     return blogs.map(blog => blog.toJSON())
@@ -50,8 +61,24 @@ const usersInDb = async () => {
     return users.map(u => u.toJSON())
 }
 
+const oneUserInDb = async () => {
+    return await User.findOne({ username: 'minni' })
+}
+
+const getToken = async () => {
+    const user = await oneUserInDb()
+    return jwt.sign(
+        {
+            username: user.username,
+            id: user.id
+        }, config.SECRET)
+}
+
 module.exports = {
     initialBlogs,
+    initialUsers,
     blogsInDb,
-    usersInDb
+    usersInDb,
+    oneUserInDb,
+    getToken
 }
