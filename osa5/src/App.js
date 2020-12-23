@@ -12,6 +12,9 @@ const App = () => {
  const [password, setPassword] = useState('')
  const [errorMessage, setErrorMessage] = useState('')
  const [user, setUser] = useState(null)
+ const [newTitle, setNewTitle] = useState('')
+ const [newAuthor, setNewAuthor] = useState('')
+ const [newUrl, setNewUrl] = useState('')
  
  useEffect(() => {
    blogService.getAll().then(blogs =>
@@ -26,6 +29,27 @@ const App = () => {
      setUser(user)
    }
  }, [])
+
+ const addBlog = async (event) => {
+   event.preventDefault()
+   const blogObject = {
+     title: newTitle,
+     author: newAuthor,
+     url: newUrl,
+     likes: 0,
+     user: user.id
+   }
+
+   blogService
+      .create(blogObject)
+      .then(returnedBlog => {
+        setBlogs(blogs.concat(returnedBlog))
+      })
+      setNewAuthor('')
+      setNewTitle('')
+      setNewUrl('')
+  
+ }
  
  const handleLogin = async (event) => {
    event.preventDefault()
@@ -38,8 +62,8 @@ const App = () => {
      window.localStorage.setItem(
        'loggedBlogappUser', JSON.stringify(user)
      )
-     console.log(window.localStorage)
- 
+      
+     blogService.setToken(user.token)
      setUser(user)
      setUsername('')
      setPassword('')
@@ -64,6 +88,16 @@ const App = () => {
  const handlePasswordChange = (event) => {
    setPassword(event.target.value)
  }
+
+ const handleTitleChange = (event) => {
+   setNewTitle(event.target.value)
+ }
+const handleAuthorChange = (event) => {
+  setNewAuthor(event.target.value)
+}
+const handleUrlChange = (event) => {
+  setNewUrl(event.target.value)
+}
  return (
    <div>
    {user === null
@@ -76,7 +110,12 @@ const App = () => {
      : <div>
        <h2>blogs</h2>
        <p>{user.name} logged in</p><button onClick={handleLogout}>logout</button>
-       <BlogForm blogs={blogs}/>
+       <BlogForm
+       blogs={blogs}
+       handleAuthorChange={handleAuthorChange}
+       handleTitleChange={handleTitleChange}
+       handleUrlChange={handleUrlChange}
+       addBlog={addBlog}/>
    </div>
    }
    </div>
