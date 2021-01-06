@@ -1,7 +1,7 @@
 import React from 'react'
 import Blog from './Blog'
  
-const BlogForm = ({ blogs, addBlog, newTitle, handleTitleChange, newAuthor, handleAuthorChange, newUrl, handeleUrlchange }) => (
+const BlogForm = ({ blogs, addBlog, newTitle, handleTitleChange, newAuthor, handleAuthorChange, newUrl, handleUrlChange }) => (
   <div>
    <div>
      {blogs.map(blog =>
@@ -23,7 +23,7 @@ const BlogForm = ({ blogs, addBlog, newTitle, handleTitleChange, newAuthor, hand
       <div>
         url: <input
         value={newUrl}
-        onChange={handeleUrlchange} />
+        onChange={handleUrlChange} />
       </div>
         <button type="submit">create</button>
      </form>

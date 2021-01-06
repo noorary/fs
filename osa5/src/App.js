@@ -27,10 +27,11 @@ const App = () => {
    if(loggedUserJSON) {
      const user = JSON.parse(loggedUserJSON)
      setUser(user)
+     blogService.setToken(user.token)
    }
  }, [])
 
- const addBlog = async (event) => {
+ const addBlog = (event) => {
    event.preventDefault()
    const blogObject = {
      title: newTitle,
@@ -40,16 +41,14 @@ const App = () => {
      user: user.id
    }
 
-   blogService
-      .create(blogObject)
-      .then(returnedBlog => {
-        setBlogs(blogs.concat(returnedBlog))
-      })
-      setNewAuthor('')
-      setNewTitle('')
-      setNewUrl('')
-  
- }
+   blogService.create(blogObject).then(returnedBlog => {
+     setBlogs(blogs.concat(returnedBlog))
+     setNewAuthor('')
+     setNewTitle('')
+     setNewUrl('')
+   })
+
+  }
  
  const handleLogin = async (event) => {
    event.preventDefault()
@@ -115,6 +114,9 @@ const handleUrlChange = (event) => {
        handleAuthorChange={handleAuthorChange}
        handleTitleChange={handleTitleChange}
        handleUrlChange={handleUrlChange}
+       newTitle={newTitle}
+       newAuthor={newAuthor}
+       newUrl={newUrl}
        addBlog={addBlog}/>
    </div>
    }
