@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
  
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
+import Blog from './components/Blog'
 import Notification from './components/Notification'
+import Togglable from './components/Togglable'
  
 import blogService from './services/blogs'
 import loginService from './services/login'
@@ -12,9 +14,6 @@ const App = () => {
  const [username, setUsername] = useState('')
  const [password, setPassword] = useState('')
  const [user, setUser] = useState(null)
- const [newTitle, setNewTitle] = useState('')
- const [newAuthor, setNewAuthor] = useState('')
- const [newUrl, setNewUrl] = useState('')
  const [notification, setNotification] = useState({
    content: null,
    style: null
@@ -34,29 +33,6 @@ const App = () => {
      blogService.setToken(user.token)
    }
  }, [])
-
- const addBlog = (event) => {
-   event.preventDefault()
-   const blogObject = {
-     title: newTitle,
-     author: newAuthor,
-     url: newUrl,
-     likes: 0,
-     user: user.id
-   }
-
-   blogService.create(blogObject).then(returnedBlog => {
-     setBlogs(blogs.concat(returnedBlog))
-     setNewAuthor('')
-     setNewTitle('')
-     setNewUrl('')
-     showNotification(`A new blog ${returnedBlog.title} by ${returnedBlog.author} was added`, 'success')
-   })
-   .catch(error => {
-     showNotification('Something went wrong and blog was not added', 'failure')
-   })
-
-  }
  
  const handleLogin = async (event) => {
    event.preventDefault()
@@ -106,40 +82,35 @@ const App = () => {
    setPassword(event.target.value)
  }
 
- const handleTitleChange = (event) => {
-   setNewTitle(event.target.value)
- }
-const handleAuthorChange = (event) => {
-  setNewAuthor(event.target.value)
-}
-const handleUrlChange = (event) => {
-  setNewUrl(event.target.value)
-}
+ 
  return (
    <div>
    {user === null
      ? <div>
        <Notification notification={notification} />
-      <LoginForm
-       username={username}
-       password={password}
-       handleLogin={handleLogin}
-       handleNameChange={handleNameChange}
-       handlePasswordChange={handlePasswordChange} />
+        <LoginForm
+          username={username}
+          password={password}
+          handleLogin={handleLogin}
+          handleNameChange={handleNameChange}
+          handlePasswordChange={handlePasswordChange} />
        </div>
      : <div>
        <h2>blogs</h2>
        <Notification notification={notification} />
        <p>{user.name} logged in</p><button onClick={handleLogout}>logout</button>
-       <BlogForm
-       blogs={blogs}
-       handleAuthorChange={handleAuthorChange}
-       handleTitleChange={handleTitleChange}
-       handleUrlChange={handleUrlChange}
-       newTitle={newTitle}
-       newAuthor={newAuthor}
-       newUrl={newUrl}
-       addBlog={addBlog}/>
+       <div>
+      {blogs.map(blog =>
+       <Blog key={blog.id} blog={blog} />
+       )}
+      </div>
+      <Togglable buttonLabel='new blog'>
+      <BlogForm
+      blogs={blogs}
+      setBlogs={setBlogs}
+       user={user}
+       showNotification={showNotification}/>
+      </Togglable>
    </div>
    }
    </div>
