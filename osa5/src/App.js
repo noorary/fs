@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
  
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
@@ -82,6 +82,8 @@ const App = () => {
    setPassword(event.target.value)
  }
 
+ const blogFormRef = useRef()
+
  
  return (
    <div>
@@ -104,12 +106,13 @@ const App = () => {
        <Blog key={blog.id} blog={blog} />
        )}
       </div>
-      <Togglable buttonLabel='new blog'>
+      <Togglable buttonLabel='new blog' ref={blogFormRef}>
       <BlogForm
       blogs={blogs}
       setBlogs={setBlogs}
        user={user}
-       showNotification={showNotification}/>
+       showNotification={showNotification}
+       blogFormRef={blogFormRef}/>
       </Togglable>
    </div>
    }

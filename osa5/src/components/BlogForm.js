@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 
 import blogService from '../services/blogs'
  
-const BlogForm = ({ showNotification, user, blogs, setBlogs}) => {
+const BlogForm = ({ showNotification, user, blogs, setBlogs, blogFormRef}) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
@@ -18,7 +18,7 @@ const BlogForm = ({ showNotification, user, blogs, setBlogs}) => {
       likes: 0,
       user: user.id
     }
- 
+    blogFormRef.current.toggleVisibility()
     blogService.create(blogObject).then(returnedBlog => {
       setBlogs(blogs.concat(returnedBlog))
       setAuthor('')
@@ -32,13 +32,13 @@ const BlogForm = ({ showNotification, user, blogs, setBlogs}) => {
  
    }
 
-   const handleTitleChange = (event) => {
+const handleTitleChange = (event) => {
     setTitle(event.target.value)
   }
- const handleAuthorChange = (event) => {
+const handleAuthorChange = (event) => {
    setAuthor(event.target.value)
  }
- const handleUrlChange = (event) => {
+const handleUrlChange = (event) => {
    setUrl(event.target.value)
  }
 
