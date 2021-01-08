@@ -26,8 +26,8 @@ const Blog = ({ blog, user, handleLike, handleDelete }) => {
   if(!blogInfo) {
     return (
       <div style={blogStyle}>
-      <p>{blog.title} {blog.author} <button onClick={() => setBlogInfo(true)}>view</button></p>
-    </div>
+        <p>{blog.title} {blog.author} <button onClick={() => setBlogInfo(true)}>view</button></p>
+      </div>
     )
   }
   return (
@@ -44,7 +44,7 @@ const Blog = ({ blog, user, handleLike, handleDelete }) => {
 }
 
 
-  
+
 
 
 export default Blog

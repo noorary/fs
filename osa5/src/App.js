@@ -1,153 +1,154 @@
 import React, { useState, useEffect, useRef } from 'react'
- 
+
 import LoginForm from './components/LoginForm'
 import BlogForm from './components/BlogForm'
 import Blog from './components/Blog'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
- 
+
 import blogService from './services/blogs'
 import loginService from './services/login'
- 
+
 const App = () => {
- const [blogs, setBlogs] = useState([])
- const [username, setUsername] = useState('')
- const [password, setPassword] = useState('')
- const [user, setUser] = useState(null)
- const [notification, setNotification] = useState({
-   content: null,
-   style: null
- })
- 
- useEffect(()=> {
-   const getBlogs = async () => {
-    const response = await blogService.getAll()
-    setBlogs(response.sort((blog1, blog2) => blog2.likes - blog1.likes ))
-   }
-   getBlogs()
- }, [])
- 
- useEffect(() => {
-   const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
-   if(loggedUserJSON) {
-     const user = JSON.parse(loggedUserJSON)
-     setUser(user)
-     blogService.setToken(user.token)
-   }
- }, [])
- 
- const handleLogin = async (event) => {
-   event.preventDefault()
- 
-   try {
-     const user = await loginService.login({
-       username, password,
-     })
- 
-     window.localStorage.setItem(
-       'loggedBlogappUser', JSON.stringify(user)
-     )
-      
-     blogService.setToken(user.token)
-     setUser(user)
-     setUsername('')
-     setPassword('')
-   } catch (exception) {
-     showNotification('Wrong username or password', 'failure')
-   }
- }
+  const [blogs, setBlogs] = useState([])
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [user, setUser] = useState(null)
+  const [notification, setNotification] = useState({
+    content: null,
+    style: null
+  })
 
- const showNotification = (content, style) => {
-   setNotification({
-     content: content,
-     style: style
-   })
-   setTimeout(() => {
-     setNotification({
-       content: null,
-       style: null
-     })
-   }, 5000)
- }
+  useEffect(() => {
+    const getBlogs = async () => {
+      const response = await blogService.getAll()
+      setBlogs(response.sort((blog1, blog2) => blog2.likes - blog1.likes ))
+    }
+    getBlogs()
+  }, [])
 
- const handleLike = async (blog) => {
-  try {
-    blog.likes += 1
-    const updatedBlog = await blogService.like(blog.id, blog)
-    setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog).sort((blog1, blog2) => blog2.likes - blog1.likes))
-  } catch (error) {
-    showNotification('something went wrong', 'failure')
-  }
- }
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+    if(loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
 
- const handleDelete = async (blog) => {
-  if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`)) {
+  const handleLogin = async (event) => {
+    event.preventDefault()
+
     try {
-      await blogService.remove(blog.id)
-      showNotification(`${blog.title} deleted`, 'success')
-      setBlogs(blogs.filter(b => b.id !== blog.id))
-    } catch (error) {
-      showNotification('Error when deleting blog', 'failure')
+      const user = await loginService.login({
+        username, password,
+      })
+
+      window.localStorage.setItem(
+        'loggedBlogappUser', JSON.stringify(user)
+      )
+
+      blogService.setToken(user.token)
+      setUser(user)
+      setUsername('')
+      setPassword('')
+    } catch (exception) {
+      showNotification('Wrong username or password', 'failure')
     }
   }
-  
-}
- 
- const handleLogout = async (event) => {
-   window.localStorage.removeItem('loggedBlogappUser')
-   setUser(null)
-   console.log(window.localStorage)
- }
- 
- const handleNameChange = (event) => {
-   setUsername(event.target.value)
- }
- 
- const handlePasswordChange = (event) => {
-   setPassword(event.target.value)
- }
 
- const blogFormRef = useRef()
+  const showNotification = (content, style) => {
+    setNotification({
+      content: content,
+      style: style
+    })
+    setTimeout(() => {
+      setNotification({
+        content: null,
+        style: null
+      })
+    }, 5000)
+  }
 
- 
- return (
-   <div>
-   {user === null
-     ? <div>
-       <Notification notification={notification} />
-        <LoginForm
-          username={username}
-          password={password}
-          handleLogin={handleLogin}
-          handleNameChange={handleNameChange}
-          handlePasswordChange={handlePasswordChange} />
-       </div>
-     : <div>
-       <h2>blogs</h2>
-       <Notification notification={notification} />
-       <p>{user.name} logged in</p><button onClick={handleLogout}>logout</button>
-       <div>
-      {blogs.map(blog =>
-       <Blog
-       key={blog.id}
-       blog={blog}
-       user={user}
-       handleLike={handleLike}
-       handleDelete={handleDelete} />
-       )}
-      </div>
-      <Togglable buttonLabel='new blog' ref={blogFormRef}>
-      <BlogForm
-      blogs={blogs}
-      setBlogs={setBlogs}
-       user={user}
-       showNotification={showNotification}
-       blogFormRef={blogFormRef}/>
-      </Togglable>
-   </div>
-   }
-   </div>
- )
+  const handleLike = async (blog) => {
+    try {
+      blog.likes += 1
+      const updatedBlog = await blogService.like(blog.id, blog)
+      setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog).sort((blog1, blog2) => blog2.likes - blog1.likes))
+    } catch (error) {
+      showNotification('something went wrong', 'failure')
+    }
+  }
+
+  const handleDelete = async (blog) => {
+    if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`)) {
+      try {
+        await blogService.remove(blog.id)
+        showNotification(`${blog.title} deleted`, 'success')
+        setBlogs(blogs.filter(b => b.id !== blog.id))
+      } catch (error) {
+        showNotification('Error when deleting blog', 'failure')
+      }
+    }
+
+  }
+
+  const handleLogout = async () => {
+    window.localStorage.removeItem('loggedBlogappUser')
+    setUser(null)
+    console.log(window.localStorage)
+  }
+
+  const handleNameChange = (event) => {
+    setUsername(event.target.value)
+  }
+
+  const handlePasswordChange = (event) => {
+    setPassword(event.target.value)
+  }
+
+  const blogFormRef = useRef()
+
+
+  return (
+    <div>
+      {user === null
+        ? <div>
+          <Notification notification={notification} />
+          <LoginForm
+            username={username}
+            password={password}
+            handleLogin={handleLogin}
+            handleNameChange={handleNameChange}
+            handlePasswordChange={handlePasswordChange} />
+        </div>
+        : <div>
+          <h2>blogs</h2>
+          <Notification notification={notification} />
+          <p>{user.name} logged in</p><button onClick={handleLogout}>logout</button>
+          <div>
+            {blogs.map(blog =>
+              <Blog
+                key={blog.id}
+                blog={blog}
+                user={user}
+                handleLike={handleLike}
+                handleDelete={handleDelete} />
+            )}
+          </div>
+          <Togglable buttonLabel='new blog' ref={blogFormRef}>
+            <BlogForm
+              blogs={blogs}
+              setBlogs={setBlogs}
+              user={user}
+              showNotification={showNotification}
+              blogFormRef={blogFormRef}/>
+          </Togglable>
+        </div>
+      }
+    </div>
+  )
 }
- 
+
+
 export default App
