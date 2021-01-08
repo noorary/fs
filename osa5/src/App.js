@@ -19,10 +19,12 @@ const App = () => {
    style: null
  })
  
- useEffect(() => {
-   blogService.getAll().then(blogs =>
-     setBlogs( blogs )
-   ) 
+ useEffect(()=> {
+   const getBlogs = async () => {
+    const response = await blogService.getAll()
+    setBlogs(response.sort((blog1, blog2) => blog2.likes - blog1.likes ))
+   }
+   getBlogs()
  }, [])
  
  useEffect(() => {
@@ -67,6 +69,29 @@ const App = () => {
      })
    }, 5000)
  }
+
+ const handleLike = async (blog) => {
+  try {
+    blog.likes += 1
+    const updatedBlog = await blogService.like(blog.id, blog)
+    setBlogs(blogs.map(blog => blog.id !== updatedBlog.id ? blog : updatedBlog).sort((blog1, blog2) => blog2.likes - blog1.likes))
+  } catch (error) {
+    showNotification('something went wrong', 'failure')
+  }
+ }
+
+ const handleDelete = async (blog) => {
+  if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`)) {
+    try {
+      await blogService.remove(blog.id)
+      showNotification(`${blog.title} deleted`, 'success')
+      setBlogs(blogs.filter(b => b.id !== blog.id))
+    } catch (error) {
+      showNotification('Error when deleting blog', 'failure')
+    }
+  }
+  
+}
  
  const handleLogout = async (event) => {
    window.localStorage.removeItem('loggedBlogappUser')
@@ -103,7 +128,12 @@ const App = () => {
        <p>{user.name} logged in</p><button onClick={handleLogout}>logout</button>
        <div>
       {blogs.map(blog =>
-       <Blog key={blog.id} blog={blog} />
+       <Blog
+       key={blog.id}
+       blog={blog}
+       user={user}
+       handleLike={handleLike}
+       handleDelete={handleDelete} />
        )}
       </div>
       <Togglable buttonLabel='new blog' ref={blogFormRef}>
