@@ -18,7 +18,7 @@ const Blog = ({ blog, user, handleLike, handleDelete }) => {
       )
     } else {
       return (
-        <div></div>
+        null
       )
     }
   }
