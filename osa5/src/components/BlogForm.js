@@ -1,35 +1,54 @@
 import React, { useState } from 'react'
 
-import blogService from '../services/blogs'
+// import blogService from '../services/blogs'
 
-const BlogForm = ({ showNotification, user, blogs, setBlogs, blogFormRef }) => {
+const BlogForm = ({ createBlog }) => {
 
   const [title, setTitle] = useState('')
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
 
 
-  const addBlog = (event) => {
+  // const addBlog = (event) => {
+  //   event.preventDefault()
+  //   const blogObject = {
+  //     title: title,
+  //     author: author,
+  //     url: url,
+  //     likes: 0,
+  //     user: user.id
+  //   }
+  //   blogFormRef.current.toggleVisibility()
+  //   blogService.create(blogObject).then(returnedBlog => {
+  //     setBlogs(blogs.concat(returnedBlog))
+  //     setAuthor('')
+  //     setTitle('')
+  //     setUrl('')
+  //     showNotification(`A new blog ${returnedBlog.title} by ${returnedBlog.author} was added`, 'success')
+  //   })
+  //     .catch(error => {
+  //       showNotification(`Something went wrong and blog was not added, error: ${error}`, 'failure')
+  //     })
+
+  // }
+
+  const handleCreateBlog = (event) => {
     event.preventDefault()
-    const blogObject = {
-      title: title,
-      author: author,
-      url: url,
-      likes: 0,
-      user: user.id
-    }
-    blogFormRef.current.toggleVisibility()
-    blogService.create(blogObject).then(returnedBlog => {
-      setBlogs(blogs.concat(returnedBlog))
+    try {
+      const blog = {
+        title: title,
+        author: author,
+        url: url,
+        likes: 0
+      }
+
+      createBlog(blog)
       setAuthor('')
       setTitle('')
       setUrl('')
-      showNotification(`A new blog ${returnedBlog.title} by ${returnedBlog.author} was added`, 'success')
-    })
-      .catch(error => {
-        showNotification(`Something went wrong and blog was not added, error: ${error}`, 'failure')
-      })
-
+    } catch (err) {
+      console.log(err)
+    }
   }
 
   const handleTitleChange = (event) => {
@@ -48,19 +67,22 @@ const BlogForm = ({ showNotification, user, blogs, setBlogs, blogFormRef }) => {
         <h2>create new blog</h2>
       </div>
       <div>
-        <form onSubmit={addBlog}>
+        <form onSubmit={handleCreateBlog}>
           <div>
-        title: <input
+            title: <input
+              id='title'
               value={title}
               onChange={handleTitleChange} />
           </div>
           <div>
-        author: <input
+            author: <input
+              id='author'
               value={author}
               onChange={handleAuthorChange} />
           </div>
           <div>
-        url: <input
+            url: <input
+              id='url'
               value={url}
               onChange={handleUrlChange} />
           </div>
@@ -68,7 +90,8 @@ const BlogForm = ({ showNotification, user, blogs, setBlogs, blogFormRef }) => {
         </form>
       </div>
     </div>
-  )}
+  )
+}
 
 
 export default BlogForm

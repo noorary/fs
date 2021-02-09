@@ -80,6 +80,19 @@ const App = () => {
     }
   }
 
+  const addBlog = async (blogObject) => {
+    try {
+      blogFormRef.current.toggleVisibility()
+      await blogService.create(blogObject)
+      const updatedBlogs = await blogService.getAll()
+      setBlogs(updatedBlogs)
+      showNotification(`A new blog ${blogObject.title} by ${blogObject.author} was added`, 'success')
+
+    } catch (err) {
+      showNotification(`Something went wrong and blog was not added, error: ${err}`, 'failure')
+    }
+  }
+
   const handleDelete = async (blog) => {
     if (window.confirm(`Remove blog ${blog.title} by ${blog.author} ?`)) {
       try {
@@ -138,11 +151,7 @@ const App = () => {
           </div>
           <Togglable buttonLabel='new blog' ref={blogFormRef}>
             <BlogForm
-              blogs={blogs}
-              setBlogs={setBlogs}
-              user={user}
-              showNotification={showNotification}
-              blogFormRef={blogFormRef}/>
+              createBlog={addBlog}/>
           </Togglable>
         </div>
       }
