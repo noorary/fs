@@ -4,9 +4,9 @@
 
 #### 7 opintopistettä:
 
-106/148 tehtävää tehty
+114/148 tehtävää tehty
 
-![Progress](https://progress-bar.dev/71/)
+![Progress](https://progress-bar.dev/77/)
 
 #### 8. opintopiste:
 
@@ -34,11 +34,19 @@
 
 #### Koko kurssi
 
-106/250 tehtävää tehty
+114/250 tehtävää tehty
 
-![Progress](https://progress-bar.dev/42/)
+![Progress](https://progress-bar.dev/45/)
 
 ## Tuntikirjanpito
+
+OSA 6
+| Osa     | Pvm    |        |
+| ------- | ------ | ------ |
+| 6       | 9.2    | 1.5    |
+| 6       | 19.2   | 1.5    |
+| **Yht** |        | 3      |
+
 
 OSA 5
 | Osa     | Pvm    |        |
