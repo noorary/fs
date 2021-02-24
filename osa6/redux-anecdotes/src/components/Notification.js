@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 const Notification = () => {
   const notification = useSelector(state => state.notification)
   let style
-  if (notification === '') {
+  if (notification === '' || notification.notification === '') {
     style = undefined
   } else {
     style = {
@@ -14,11 +14,9 @@ const Notification = () => {
     }
   }
 
-  
-
   return (
     <div style={style}>
-      {notification}
+      {notification.notification}
     </div>
   )
 }
