@@ -11,21 +11,23 @@ export const setNotification = ( notification, time ) => {
 }
 
 export const clearNotification = () => {
-  const notification = ''
-  const timer = null
   return {
-    type: 'CLEAR_NOTIF',
-    data: { notification, timer}
+    type: 'CLEAR_NOTIF'
   }
 }
 
-const notificationReducer = (state = '', action) => {
-  console.log(action)
+const notificationReducer = (state = { notification: '', timer: null}, action) => {
   switch (action.type) {
     case 'SET_NOTIF':
+      console.log('TÄÄ')
+      console.log(state.timer)
+      if(state.timer !== null) {
+        clearTimeout(state.timer)
+      }
+      
       return {
         notification: action.data.notification,
-        timer: action.data.timeout
+        timer: action.data.timer
       }
     case 'CLEAR_NOTIF':
       return {
