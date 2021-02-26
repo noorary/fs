@@ -1,7 +1,8 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 
-const AnecdoteList = ({ anecdotes, notification }) => (
+const AnecdoteList = ({ anecdotes, notification }) => {
+  return (
   <div>
     <p>{notification}</p>
     <h2>Anecdotes</h2>
@@ -11,6 +12,7 @@ const AnecdoteList = ({ anecdotes, notification }) => (
         </li>)}
     </ul>
   </div>
-)
+  )
+}
 
 export default AnecdoteList
