@@ -1,20 +1,24 @@
-import React, { useState } from 'react'
+import React from 'react'
+import { connect } from 'react-redux'
+import { createBlog } from '../reducers/blogReducer'
+import { setNotification } from '../reducers/notificationReducer'
 
 const NewBlog = (props) => {
-  const [title, setTitle] = useState('')
-  const [author, setAuthor] = useState('')
-  const [url, setUrl] = useState('')
+  console.log('PROPS')
+  console.log(props)
 
-  const handleNewBlog = (event) => {
+  const handleNewBlog = async (event) => {
     event.preventDefault()
+
+    const title = event.target.title.value
+    const author = event.target.author.value
+    const url = event.target.url.value
 
     props.createBlog({
       title, author, url
     })
+    props.setNotification(`you added ${title}`)
 
-    setTitle('')
-    setAuthor('')
-    setUrl('')
   }
 
   return (
@@ -25,30 +29,33 @@ const NewBlog = (props) => {
           author
           <input
             id='author'
-            value={author}
-            onChange={({ target }) => setAuthor(target.value)}
           />
         </div>
         <div>
           title
           <input
             id='title'
-            value={title}
-            onChange={({ target }) => setTitle(target.value)}
           />
         </div>
         <div>
           url
           <input
             id='url'
-            value={url}
-            onChange={({ target }) => setUrl(target.value)}
           />
         </div>
-        <button id="create">create</button>
+        <button type="submit" id="create">create</button>
       </form>
     </div>
   )
 }
 
-export default NewBlog
+
+const mapDispatchToProps = {
+  createBlog,
+  setNotification
+}
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(NewBlog)

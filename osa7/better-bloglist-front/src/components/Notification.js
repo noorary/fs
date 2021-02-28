@@ -1,9 +1,9 @@
 import React from 'react'
+import { connect } from 'react-redux'
 
-import { connect } from 'react'
-
-const Notification = ({ notification }) => {
-  if ( !notification ) {
+const Notification = (props) => {
+  console.log(props)
+  if ( props.notification.notification === '' ) {
     return null
   }
 
@@ -11,13 +11,25 @@ const Notification = ({ notification }) => {
     borderStyle: 'solid',
     borderRadius: 5,
     padding: 10,
-    color: notification.type === 'success' ? 'green' : 'red',
+    color: 'black',
     background: 'lightgrey'
   }
+  console.log('päästääks tänne')
 
   return <div style={style}>
-    {notification.message}
+    {props.notification.notification}
   </div>
 }
 
-export default Notification
+const mapStateToProps = state => {
+  return {
+    notification: state.notification
+  }
+}
+
+
+export default connect(mapStateToProps, null)(Notification)
+
+// tallessa
+
+// color: notification.type === 'success' ? 'green' : 'red',
