@@ -3,10 +3,16 @@ import storage from '../utils/storage'
 
 const baseUrl = 'http://localhost:3001/api/blogs'
 
+let token = null
+
 const getConfig = () => {
   return {
-    headers: { Authorization: `bearer ${storage.loadUser().token}` }
+    headers: { Authorization: `bearer ${token}` }
   }
+}
+
+const setToken = newToken => {
+  token = `bearer ${newToken}`
 }
 
 const getAll = () => {
@@ -20,15 +26,16 @@ const create = (blog) => {
 }
 
 const update = (blog) => {
-  console.log('AAAAAAAAAAAAAAAA')
-  console.log(blog)
   const request = axios.put(`${baseUrl}/${blog.id}`, blog, getConfig())
   return request.then(response => response.data)
 }
 
 const remove = (id) => {
-  const request = axios.delete(`${baseUrl}/${id}`, getConfig())
+  const config = {
+    headers: { Authorization: token },
+  }
+  const request = axios.delete(`${baseUrl}/${id}`, config)
   return request.then(response => response.data)
 }
 
-export default { getAll, create, update, remove }
+export default { getAll, create, update, remove, setToken }

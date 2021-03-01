@@ -1,53 +1,96 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, connect } from 'react-redux'
+import {
+  useRouteMatch,
+  Switch, Route, Link
+} from 'react-router-dom'
 import { setNotification } from './reducers/notificationReducer'
+import { setUser, removeUser, initializeUsers } from './reducers/userReducer'
 import { initializeBlogs } from './reducers/blogReducer'
+import useField from './hooks/index'
 
 import Notification from './components/Notification'
 import BlogList from './components/BlogList'
+import Users from './components/Users'
+import Header from './components/Header'
 
 import loginService from './services/login'
-import storage from './utils/storage'
+import blogService from './services/blogs'
+//import storage from './utils/storage'
 
-const App = () => {
+const NavBar = (props) => {
+
+
+  console.log('LAST CHANCE')
+  console.log(props)
+
+  const padding = {
+    paddingRight: 5
+  }
+
+  return (
+    <div>
+      <div>
+        <Link style={padding} to='/'>blogs</Link>
+        <Link style={padding} to='/users'>users</Link>
+      </div>
+
+      <Switch>
+        <Route path='/'>
+          <BlogList user={props.user}/>
+        </Route>
+      </Switch>
+    </div>
+  )
+}
+
+
+
+const App = (props) => {
+
   
-  const [user, setUser] = useState(null)
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
-
-  const dispatch = useDispatch()
+  const username = useField('text')
+  const password = useField('text')
 
   useEffect(() => {
-    dispatch(initializeBlogs())
-  }, [dispatch])
-
-  useEffect(() => {
-    const user = storage.loadUser()
-    setUser(user)
+    props.initializeBlogs()
+    props.initializeUsers()
   }, [])
+
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser')
+
+    if (loggedUserJSON) {
+      const user = JSON.parse(loggedUserJSON)
+      props.setUser(user)
+      blogService.setToken(user.token)
+    }
+  }, [])
+
+  
 
   const handleLogin = async (event) => {
     event.preventDefault()
-    try {
-      const user = await loginService.login({
-        username, password
-      })
-
-      setUsername('')
-      setPassword('')
-      setUser(user)
-      setNotification(`${user.name} welcome back!`)
-      storage.saveUser(user)
+    
+    try{
+      const user = await loginService.login({ username, password })
+      console.log(user)
+      window.localStorage.setItem('loggedBlogappUser', JSON.stringify(user))
+      props.setUser(user)
+      props.setNotification('Login successful')
     } catch (exception) {
-      setNotification('wrong username/password')
+      props.setNotification('käyttäjätunnus tai salasana virheellinen')
     }
+
+
   }
   const handleLogout = () => {
-    setUser(null)
-    storage.logoutUser()
+    window.localStorage.removeItem('loggedBlogappUser')
+    props.removeUser()
+    window.location.reload()
   }
 
-  if (!user) {
+  if (!props.user) {
     return (
       <div>
         <h2>login to application</h2>
@@ -58,17 +101,13 @@ const App = () => {
           <div>
             username
             <input
-              id='username'
-              value={username}
-              onChange={({ target }) => setUsername(target.value)}
+              {...username}
             />
           </div>
           <div>
             password
             <input
-              id='password'
-              value={password}
-              onChange={({ target }) => setPassword(target.value)}
+              {...password}
             />
           </div>
           <button id='login'>login</button>
@@ -76,15 +115,28 @@ const App = () => {
       </div>
     )
   }
-
   return (
     <div>
+      
+      <Header />
       <p>
-        {user.name} logged in <button onClick={handleLogout}>logout</button>
+        {props.user.name} logged in <button onClick={handleLogout}>logout</button>
       </p>
-      <BlogList user={user} />
+      <NavBar />
     </div>
   )
 }
 
-export default App
+const mapStateToProps = (state) => {
+  return {
+    blogs: state.blogs,
+    notification: state.notification,
+    user: state.user
+  }
+}
+
+const mapDispatchToProps = { setNotification, setUser, removeUser, initializeBlogs, initializeUsers}
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+
+export default ConnectedApp

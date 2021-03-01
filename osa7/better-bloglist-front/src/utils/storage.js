@@ -3,8 +3,11 @@ const storageKey = 'loggedBlogAppUser'
 const saveUser = (user) =>
   localStorage.setItem(storageKey, JSON.stringify(user))
 
-const loadUser = () =>
-  JSON.parse(localStorage.getItem(storageKey))
+const loadUser = async () => {
+  const u = await JSON.parse(localStorage.getItem(storageKey))
+  return u
+}
+  
 
 const logoutUser = () =>
   localStorage.removeItem(storageKey)

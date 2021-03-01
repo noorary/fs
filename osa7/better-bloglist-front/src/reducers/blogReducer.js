@@ -10,7 +10,6 @@ const blogReducer = (state = [], action) => {
       const blogToLike = state.find((b) => b.id === blog.id)
       const likedBlog = {
         ...blogToLike,
-        user: blogToLike.user.id,
         likes: blogToLike.likes + 1
       }
       return state

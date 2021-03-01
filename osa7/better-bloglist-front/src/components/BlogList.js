@@ -33,14 +33,13 @@ const BlogList = (props) => {
       <Togglable buttonLabel='create new blog' ref={blogFormRef}>
         <NewBlog />
       </Togglable>
-  
       {props.blogs.sort(byLikes).map(blog =>
         <Blog
           key={blog.id}
           blog={blog}
           handleLike={handleLike}
           handleRemove={handleRemove}
-          own={props.user.username === blog.user.username}
+          own={true}
         />
       )}
     </div>
