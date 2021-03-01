@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, connect } from 'react-redux'
 import {
-  useRouteMatch,
   Switch, Route, Link
 } from 'react-router-dom'
 import { setNotification } from './reducers/notificationReducer'
@@ -11,23 +10,15 @@ import useField from './hooks/index'
 
 import Notification from './components/Notification'
 import BlogList from './components/BlogList'
-import Users from './components/Users'
 import Header from './components/Header'
 
 import loginService from './services/login'
 import blogService from './services/blogs'
-//import storage from './utils/storage'
 
 const NavBar = (props) => {
-
-
-  console.log('LAST CHANCE')
-  console.log(props)
-
   const padding = {
     paddingRight: 5
   }
-
   return (
     <div>
       <div>

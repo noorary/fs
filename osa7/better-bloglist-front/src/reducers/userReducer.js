@@ -1,5 +1,3 @@
-import userService from '../services/users'
-
 const userReducer =(state=null, action) => {
   switch(action.type){
   case 'SET_USER':
@@ -8,8 +6,6 @@ const userReducer =(state=null, action) => {
   case 'REMOVE_USER':
     state = { ...state, user:null }
     return state
-  case 'INIT_USERS':
-    return action.data
   default:
     return state
   }
@@ -36,15 +32,5 @@ export const removeUser = () => {
   }
 }
 
-export const initializeUsers = () => {
-  return async dispatch => {
-    const users = await userService.getAll()
-    console.log('ENTÄS TÄÄL')
-    console.log(users)
-    dispatch({
-      type: 'INIT_USERS',
-      data: users,
-    })
-  }
-}
+
 export default userReducer
